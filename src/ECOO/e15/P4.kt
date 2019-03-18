@@ -1,7 +1,6 @@
 package ECOO.e15
 
 import java.util.*
-import kotlin.collections.ArrayList
 
 fun main() {
     val input = Scanner(System.`in`)
@@ -9,41 +8,20 @@ fun main() {
     fun nextInt() = input.nextInt()
     fun next() = input.next()
 
-    val words = arrayOf(
-            "ook",
-            "ookook",
-            "oog",
-            "ooga",
-            "ug",
-            "mook",
-            "mookmook",
-            "oogam",
-            "oogum",
-            "ugug")
-    val possibleLines = ArrayList<String>()
+    val words = arrayOf("ook", "ookook", "oog", "ooga", "ug", "mook", "mookmook", "oogam", "oogum", "ugug")
 
     repeat(10) {
-        possibleLines.clear()
-        possibleLines.add(next())
-        var posibility = 0
+        val line = next()!!
+        val possibility = Array(line.length + 1) { 0 }
+        possibility[0] = 1
 
-        val newPossible = ArrayList<String>()
-        do {
-            for (line in possibleLines) for (word in words) {
-                if (line.indexOf(word) == 0) {
-                    if (word.length == line.length) {
-                        posibility++
-                    } else {
-                        newPossible.add(line.substring(word.length))
-                    }
-                }
+        for (i in 0 until line.length) for (word in words) {
+            if (line.indexOf(word, i) == i) {
+                possibility[i + word.length] += possibility[i]
             }
-            possibleLines.clear()
-            possibleLines.addAll(newPossible)
-            newPossible.clear()
-        }while (possibleLines.size>0)
+        }
 
-        println(posibility)
+        println(possibility[line.length])
     }
 
 }
