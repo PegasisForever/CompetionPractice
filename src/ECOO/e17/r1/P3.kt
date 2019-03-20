@@ -1,4 +1,4 @@
-package ECOO.e17
+package ECOO.e17.r1
 
 import java.util.*
 import kotlin.collections.ArrayList
@@ -14,9 +14,9 @@ fun main() {
     repeat(10){
         mountains.clear()
         repeat(nextInt()){
-            val newM=Mountain(nextInt(),it)
+            val newM= Mountain(nextInt(), it)
             for (mountain in mountains){
-                if (isVisible(mountains,mountain,newM)){
+                if (isVisible(mountains, mountain, newM)){
                     mountain.view++
                     newM.view++
                 }
@@ -32,7 +32,7 @@ fun main() {
 
 }
 
-fun isVisible(list:ArrayList<Mountain>,m1:Mountain,m2:Mountain):Boolean {
+fun isVisible(list:ArrayList<Mountain>, m1: Mountain, m2: Mountain):Boolean {
     val a=(m1.height-m2.height).toFloat()/(m1.position-m2.position)
     val b=m1.height-a*m1.position
 

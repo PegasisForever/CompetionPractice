@@ -1,4 +1,4 @@
-package ECOO.e18
+package ECOO.e18.r1
 
 import ECOO.toString
 import java.util.*
@@ -32,6 +32,6 @@ fun main() {
         }
 
 
-        print("$minR ${troubleRoads.toString("{",",","}")}")
+        println("$minR ${troubleRoads.toString("{",",","}")}")
     }
 }

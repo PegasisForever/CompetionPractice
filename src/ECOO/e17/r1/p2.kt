@@ -1,4 +1,4 @@
-package ECOO.e17
+package ECOO.e17.r1
 
 import java.util.*
 import kotlin.collections.ArrayList
@@ -17,7 +17,7 @@ fun main() {
         chocolates.clear()
         winner.clear()
         repeat(nextInt()) {
-            val newChoco=Chocolate(next(),0, arrayListOf(0f,0f,0f))
+            val newChoco= Chocolate(next(), 0, arrayListOf(0f, 0f, 0f))
             while (input.hasNext("J")){
                 next()
                 newChoco.judges++

@@ -1,4 +1,4 @@
-package ECOO.e15
+package ECOO.e15.r1
 
 import ECOO.Vec2
 import java.util.*
@@ -24,9 +24,9 @@ fun main() {
     triOffset.add(Vec2(3,3*sq3))//10
 
     repeat(5){
-        val firstX= precisedFloat(nextFloat(),nextInt())
-        val firstY= precisedFloat(nextFloat(),nextInt())
-        val length=precisedFloat(nextFloat(),nextInt())/3/2
+        val firstX= precisedFloat(nextFloat(), nextInt())
+        val firstY= precisedFloat(nextFloat(), nextInt())
+        val length= precisedFloat(nextFloat(), nextInt()) /3/2
         val precision=nextInt()
 
         repeat(2){
