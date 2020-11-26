@@ -7,9 +7,7 @@ public class JavaTemple {
     private static Scanner input=new Scanner(System.in);
 
     public static void main(String[] args){
-        repeat(10,(it)->{
-            println(it);
-        });
+
     }
 
     static String next(){
@@ -21,9 +19,9 @@ public class JavaTemple {
     static float nextFloat(){
         return input.nextFloat();
     }
-    static void repeat(int time, Action runnable){
+    static void repeat(int time, Runnable runnable){
         for (int i=0;i<time;i++){
-            runnable.run(i);
+            runnable.run();
         }
     }
     static void print(Object o){

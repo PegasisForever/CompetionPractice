@@ -1,6 +1,6 @@
 package ECOO.e16.r1
 
-import com.sun.javafx.geom.Vec2d
+import ECOO.Vec2
 import java.util.*
 import kotlin.Comparator
 import kotlin.collections.ArrayList
@@ -8,11 +8,11 @@ import kotlin.collections.ArrayList
 fun main() {
     val input = Scanner(System.`in`)
     val houseList = ArrayList<House>()
-    val newComerPoses = ArrayList<Vec2d>()
-    val circleOffsets = ArrayList<Vec2d>()
+    val newComerPoses = ArrayList<Vec2>()
+    val circleOffsets = ArrayList<Vec2>()
     for (x in -50..50) for (y in -50..50) {
         if (Math.sqrt((x * x + y * y).toDouble()) <= 50) {
-            circleOffsets.add(Vec2d(x.toDouble(), y.toDouble()))
+            circleOffsets.add(Vec2(x.toDouble(), y.toDouble()))
         }
     }
 
@@ -20,13 +20,13 @@ fun main() {
         newComerPoses.clear()
         houseList.clear()
 
-        val newComerArea = Vec2d(input.nextDouble(), input.nextDouble())
+        val newComerArea = Vec2(input.nextDouble(), input.nextDouble())
         for (offsets in circleOffsets) {
-            newComerPoses.add(Vec2d(newComerArea.x + offsets.x, newComerArea.y + offsets.y))
+            newComerPoses.add(Vec2(newComerArea.x + offsets.x, newComerArea.y + offsets.y))
         }
 
         repeat(100) {
-            houseList.add(House(Vec2d(input.nextDouble(), input.nextDouble()), input.next() == "D"))
+            houseList.add(House(Vec2(input.nextDouble(), input.nextDouble()), input.next() == "D"))
         }
 
         var Dtimes = 0
@@ -68,4 +68,4 @@ fun main() {
 }
 
 //true: D false:R
-data class House(var pos: Vec2d, var blv: Boolean, var distance: Double = Double.MAX_VALUE)
+data class House(var pos: Vec2, var blv: Boolean, var distance: Double = Double.MAX_VALUE)
