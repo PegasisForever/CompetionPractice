@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.*;
 
-// TODO
 public class S3 {
     static class InputReader {
         private final InputStream stream;
@@ -307,56 +306,30 @@ public class S3 {
         }
     }
 
-    static class Distance {
-        public static Distance ZERO = new Distance(0, 0);
-        public final int oneway;
-        public final int twoway;
-
-        public Distance(int oneway, int twoway) {
-            this.oneway = oneway;
-            this.twoway = twoway;
-        }
-    }
-
     static class Node {
-        HashMap<Node, Distance> neighbours = new HashMap<>(4);
+        int i;
+        HashSet<Node> neighbours = new HashSet<>(4);
         boolean isTarget;
+        int depth = 0;
 
-        Node(boolean isTarget) {
+        Node(boolean isTarget, int i) {
             this.isTarget = isTarget;
+            this.i = i;
         }
 
-        Distance step(Node fromNode) {
-            Distance cached = neighbours.get(fromNode);
-            if (cached != null) return cached;
+        void removeFromTree() {
+            for (Node neighbour : neighbours) {
+                neighbour.neighbours.remove(this);
+            }
+            neighbours.clear();
+        }
 
-            int maxDiff = 0;
-            int oneway = 0;
-            int twoway = 0;
-            for (Node node : neighbours.keySet()) {
-                if (node != fromNode) {
-                    Distance d = node.step(this);
-                    maxDiff = Math.max(maxDiff, d.twoway - d.oneway);
-                    oneway += d.twoway;
-                    twoway += d.twoway;
-                }
-            }
-            oneway -= maxDiff;
+        boolean isRemoved() {
+            return neighbours.isEmpty();
+        }
 
-            Distance d;
-            if (twoway == 0) {
-                if (isTarget) {
-                    d = new Distance(1, 2);
-                } else {
-                    d = Distance.ZERO;
-                }
-            } else {
-                d = new Distance(oneway + 1, twoway + 2);
-            }
-            if (fromNode != null) {
-                neighbours.put(fromNode, d);
-            }
-            return d;
+        boolean isLeaf() {
+            return neighbours.size() == 1;
         }
     }
 
@@ -372,7 +345,7 @@ public class S3 {
         Node[] nodes = new Node[nodeCount];
         for (int i = 0; i < nodeCount; i++) {
             boolean isTarget = targetNodesMap[i];
-            Node node = new Node(isTarget);
+            Node node = new Node(isTarget, i);
             nodes[i] = node;
             if (isTarget) {
                 targetNodes.add(node);
@@ -381,18 +354,61 @@ public class S3 {
         for (int i = 0; i < nodeCount - 1; i++) {
             Node a = nodes[s.nextInt()];
             Node b = nodes[s.nextInt()];
-            a.neighbours.put(b, null);
-            b.neighbours.put(a, null);
+            a.neighbours.add(b);
+            b.neighbours.add(a);
         }
 
-
-
-        int minLength = Integer.MAX_VALUE;
-        for (Node targetNode : targetNodes) {
-            minLength = Math.min(minLength, targetNode.step(null).oneway - 1);
+        ArrayList<Node> leaves = new ArrayList<>();
+        for (Node node : nodes) {
+            if (node.isLeaf()) {
+                leaves.add(node);
+            }
+        }
+        for (Node leaf : leaves) {
+            Node curr = leaf;
+            while (!curr.isTarget && curr.isLeaf()) {
+                Node next = curr.neighbours.iterator().next();
+                curr.removeFromTree();
+                curr = next;
+            }
         }
 
-        System.out.println(minLength);
+        ArrayList<Node> nodes2 = new ArrayList<>(nodeCount);
+        for (Node node : nodes) {
+            if (!node.isRemoved()) {
+                nodes2.add(node);
+            }
+        }
+
+        Node res1 = dfs(nodes2.get(0), nodes.length);
+        Node res2 = dfs(res1, nodes.length);
+        System.out.println(2 * (nodes2.size() - 1) - res2.depth);
+    }
+
+    static Node dfs(Node start, int nodeCount) {
+        Node maxNode = start;
+
+        boolean[] visited = new boolean[nodeCount];
+        Stack<Node> stack = new Stack<>();
+        stack.push(start);
+        start.depth = 0;
+        while (!stack.isEmpty()) {
+            Node node = stack.pop();
+            if (!visited[node.i]) {
+                visited[node.i] = true;
+
+                if (node.depth > maxNode.depth) {
+                    maxNode = node;
+                }
+
+                for (Node neighbour : node.neighbours) {
+                    neighbour.depth = node.depth + 1;
+                    stack.push(neighbour);
+                }
+            }
+        }
+
+        return maxNode;
     }
 }
 

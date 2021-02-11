@@ -29,7 +29,6 @@ int main() {
     ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
     int N, M, m, a, b; int treeWeight = 0; int pho = 0; cin >> N >> M;
     vector<vector<int>> adjOne(N+1);
-    cout <<"awa";
     loop(M) {cin >> m; isPho[m] = true; pho = m;}
     loop(N-1) {
         cin >> a >> b;

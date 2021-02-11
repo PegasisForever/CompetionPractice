@@ -329,6 +329,28 @@ public class Tools {
         }
     }
 
+    static class Pair<A, B> {
+        public final A first;
+        public final B second;
+
+        public Pair(A first, B second) {
+            this.first = first;
+            this.second = second;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            Pair<A, B> casted = (Pair<A, B>) o;
+            return Objects.equals(first, casted.first) &&
+                    Objects.equals(second, casted.second);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(first, second);
+        }
+    }
+
     static class LongPair {
         public final long x;
         public final long y;
